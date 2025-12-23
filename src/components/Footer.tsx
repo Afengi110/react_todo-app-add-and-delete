@@ -6,7 +6,7 @@ interface FooterProps {
   completedTodos: number[];
   filter: FilterType;
   setFilter: (filter: FilterType) => void;
-  handlClearAll: () => void;
+  handleClearAll: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({
   completedTodos,
   filter,
   setFilter,
-  handlClearAll,
+  handleClearAll,
 }) => {
   return (
     <>
@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({
           data-cy="ClearCompletedButton"
           disabled={completedTodos.length === 0}
           onClick={() => {
-            handlClearAll();
+            handleClearAll();
           }}
         >
           Clear completed

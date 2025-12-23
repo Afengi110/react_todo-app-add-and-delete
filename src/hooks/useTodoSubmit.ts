@@ -27,12 +27,9 @@ export const useTodoSubmit = ({
   USER_ID,
 }: UseTodoSubmitParams) => {
   return useCallback(
-    async (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key !== 'Enter') {
-        return;
-      }
-
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+
       const error = validateInput(input);
 
       if (error) {
@@ -42,20 +39,19 @@ export const useTodoSubmit = ({
         return;
       }
 
-      const tempTodo = createTempTodo(input.trim(), USER_ID);
+      const trimmedInput = input.trim();
+      const tempTodo = createTempTodo(trimmedInput, USER_ID);
 
       setTempTodo(tempTodo);
 
       try {
-        const newTodo = await postTodo(input.trim());
+        const newTodo = await postTodo(trimmedInput);
 
-        if (newTodo) {
-          setTempTodo(null);
-          setTodos((prev: Todo[]) => [...prev, newTodo]);
-          setInput('');
-          setErrorMessage('');
-          inputRef.current?.focus();
-        }
+        setTempTodo(null);
+        setTodos((prev: Todo[]) => [...prev, newTodo]);
+        setInput('');
+        setErrorMessage('');
+        inputRef.current?.focus();
       } catch {
         onError('Unable to add a todo');
         setTempTodo(null);

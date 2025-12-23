@@ -18,7 +18,10 @@ export function useTodoActions({
 
   const handleDelete = async (todoId: number) => {
     try {
-      setLoadingTodoIds([todoId]);
+      setLoadingTodoIds(prev =>
+        prev.includes(todoId) ? prev : [...prev, todoId],
+      );
+
       const deleteApproved = await deleteTodo(todoId);
 
       if (deleteApproved) {
@@ -27,7 +30,7 @@ export function useTodoActions({
     } catch {
       onError('Unable to delete a todo');
     } finally {
-      setLoadingTodoIds([]);
+      setLoadingTodoIds(prev => prev.filter(id => id !== todoId));
     }
   };
 

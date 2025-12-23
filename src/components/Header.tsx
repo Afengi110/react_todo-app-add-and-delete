@@ -7,7 +7,7 @@ interface HeaderProps {
   tempTodo: Todo | null;
   input: string;
   setInput: (input: string) => void;
-  handleTodoSubmit: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleTodoSubmit: (e: React.FormEvent<HTMLFormElement>) => void; // Зміна тут
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -22,11 +22,13 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="todoapp__header">
       <button
         type="button"
-        className={`todoapp__toggle-all ${todos.every(todo => todo.completed && 'active')}`}
+        className={`todoapp__toggle-all ${todos.every(todo => todo.completed) ? 'active' : ''}`}
         data-cy="ToggleAllButton"
       />
 
-      <form>
+      <form onSubmit={handleTodoSubmit}>
+        {' '}
+        {/* Ось головна зміна */}
         <input
           data-cy="NewTodoField"
           ref={inputRef}
@@ -35,12 +37,7 @@ export const Header: React.FC<HeaderProps> = ({
           value={input}
           className="todoapp__new-todo"
           placeholder="What needs to be done?"
-          onKeyDown={e => {
-            handleTodoSubmit(e);
-          }}
-          onChange={e => {
-            setInput(e.target.value);
-          }}
+          onChange={e => setInput(e.target.value)}
         />
       </form>
     </header>

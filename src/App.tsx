@@ -67,7 +67,7 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (tempTodo === null || loadingTodoIds) {
+    if (tempTodo === null && loadingTodoIds.length === 0) {
       inputRef.current?.focus();
     }
   }, [tempTodo, loadingTodoIds]);
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
             completedTodos={completedTodos}
             filter={filter}
             setFilter={setFilter}
-            handlClearAll={() => handleClearAll(completedTodos)} // Wrap with function
+            handleClearAll={() => handleClearAll(completedTodos)} // Wrap with function
           />
         )}
       </div>
